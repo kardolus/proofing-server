@@ -21,7 +21,7 @@ app.get('/', (req, res) =>{
 		.catch(
 			err => {
 				console.error(err);
-				res.status(500).json({messange: 'Internal Server Error'});
+				res.status(500).json({message: 'Internal Server Error'});
 			});
 });
 
