@@ -9,8 +9,6 @@ const cloudinary = require('cloudinary');
 mongoose.Promise = global.Promise;
 const {Photo} = require('./models.js');
 
-
-
 app.get('/', (req, res) =>{
 	Photo
 		.find()
@@ -24,10 +22,6 @@ app.get('/', (req, res) =>{
 				res.status(500).json({message: 'Internal Server Error'});
 			});
 });
-
-
-
-
 
 let server;
 
