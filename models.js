@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
-const photoSchema = mongoose.Schema({
-         img: {name: 'string'}
+const photoSchema = mongoose.Schema({ 
+         	"public_id": {type: String},
+     		"url": {type: String},
+     		"Approved": {type: String}
      } 
 );
 

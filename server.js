@@ -15,26 +15,23 @@ app.use(cors({
     origin: CLIENT_ORIGIN
 })
 
-app.get('/resources/image', (req, res) =>{
+app.get('/', (req, res) =>{
 	Photo
 		.find()
 		.exec()
-		.then(photo => {
-			res.status(200).json(photo)
+		.then(photos => {
+			res.status(200).json(photos)
 		})
 		.catch(
 			err => {
 				console.error(err);
 				res.status(500).json({message: 'Internal Server Error'});
-			});
+		});
 });
-
-
-
 
 // Basic Example
 
-cloudinary.uploader.upload('pizza.jpg',{tags:'basic_sample'})
+/*cloudinary.uploader.upload('pizza.jpg',{tags:'basic_sample'})
 .then(function(image){
   console.log();
   console.log("** File Upload (Promise)");
@@ -46,15 +43,14 @@ cloudinary.uploader.upload('pizza.jpg',{tags:'basic_sample'})
   console.log();
   console.log("** File Upload (Promise)");
   if (err){ console.warn(err);}
-});
+});*/
 
 // Other example
-cloudinary.v2.uploader.upload("/home/my_image.jpg", 
-    function(error, result) {console.log(result)});
-
+/*cloudinary.v2.uploader.upload("/home/my_image.jpg", 
+    function(error, result) {console.log(result)});*/
 
 //Previous way i did 
-app.post('/', (req, res) =>{
+/*app.post('/', (req, res) =>{
 	console.log(req);
 	console.log(res);
 	Photo
@@ -66,7 +62,25 @@ app.post('/', (req, res) =>{
 			console.error(err);
 			res.status(500).json({message: 'Internal Server Error'});
 		});
-});
+});*/
+
+app.post("/", (req, res) => {
+	cloudinary.uploader.upload(req)
+		.then(function(image){
+  			console.log("* "+image.public_id);
+  			console.log("* "+image.url);
+		})
+		Photo
+			.create({
+				public_id: res.body.public_id,
+				url: res.body.url})
+			.then(
+				photo => res.status(201).json(photo))
+			.catch(err => {
+				console.error(err);
+  				res.status(500).json({message: 'Internal Server error'});
+		});
+	});
 
 let server;
 
