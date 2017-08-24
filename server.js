@@ -31,6 +31,7 @@ app.get('/', (req, res) =>{
 });
 
 app.post('/', (req, res) => {
+  console.log("The Req"+ req);
 	cloudinary.uploader.upload(req)
 		.then(function(image){
   			console.log("* "+image.public_id);
