@@ -30,11 +30,12 @@ app.get('/', (req, res) =>{
 		});
 });
 
-app.post('/', (req, res) => {
-  console.log("The Req"+ req);
-	cloudinary.uploader.upload(req)
-		.then(function(image){
-  			console.log("* "+image.public_id);
+app.post('/', function(req, res, next) {
+  console.log("The Req"+ req.files.fileToUpload.path);
+  var fileGettingUploaded = req.files.fileToUpload.path;
+	cloudinary.uploader.upload(fileGettingUploaded, function(result) {
+		//.then(function(req.files){
+  			console.log(result);
   			console.log("* "+image.url);
 		})
 		Photo
