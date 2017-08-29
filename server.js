@@ -31,23 +31,21 @@ app.get('/', (req, res) =>{
 });
 
 app.post('/', function(req, res, next) {
-  console.log("The Req"+ req.files.fileToUpload.path);
-  var fileGettingUploaded = req.files.fileToUpload.path;
-	cloudinary.uploader.upload(fileGettingUploaded, function(result) {
-		//.then(function(req.files){
-  			console.log(result);
-  			console.log("* "+image.url);
+  console.log("The Req"+ req);
+	cloudinary.uploader.upload(req, function(res) {
+  			//console.log(res);
+  			//console.log("* "+image.url);
 		})
-		Photo
+		/*Photo
 			.create({
-				public_id: res.body.public_id,
-				url: res.body.url})
+				public_id: res.public_id,
+				url: res.url})
 			.then(
 				photo => res.status(201).json(photo))
 			.catch(err => {
 				console.error(err);
-  				res.status(500).json({message: 'Internal Server error'});
-		});
+  				res.status(500).json({message: err});
+		});*/
 	});
 
 let server;
