@@ -11,7 +11,6 @@ mongoose.Promise = global.Promise;
 
 const {Photo} = require('./models.js');
 
-
 app.use(cors({
     origin: CLIENT_ORIGIN
 }))

@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 const photoSchema = mongoose.Schema({ 
          	"public_id": {type: String},
-     		"url": {type: String},
-     		"Approved": {type: String}
+     		"secure_url": {type: String},
+     		"New": {type: Boolean},
+     		"Approved": {type: Boolean}
      } 
 );
 
