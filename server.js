@@ -31,20 +31,16 @@ app.get('/', (req, res) =>{
 
 app.post('/', function(req, res, next) {
   console.log("The Req"+ req);
-	cloudinary.uploader.upload(req, function(res) {
-  			//console.log(res);
-  			//console.log("* "+image.url);
-		})
-		/*Photo
+			Photo
 			.create({
-				public_id: res.public_id,
-				url: res.url})
+				public_id: req.body.public_id,
+				url: req.url})
 			.then(
 				photo => res.status(201).json(photo))
 			.catch(err => {
 				console.error(err);
   				res.status(500).json({message: err});
-		});*/
+		});
 	});
 
 let server;
