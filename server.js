@@ -34,11 +34,11 @@ app.get('/', (req, res) =>{
 });
 
 app.post('/', function(req, res, next) {
-  console.log("The Req"+ req.body.uploaded.public_id);
+  console.log("The Req"+ JSON.stringify(req.body));
 			Photo
 			.create({
-				public_id: req.body.public_id,
-				url: req.body.url})
+				image :[req.body.uploaded]
+				})
 			.then(
 				photo => res.status(201).json(photo))
 			.catch(err => {
