@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
 const {PORT, DATABASE_URL, CLOUDINARY_URL, CLIENT_ORIGIN} = require('./config');
 
@@ -10,6 +11,9 @@ let cloudinary = require('cloudinary');
 mongoose.Promise = global.Promise;
 
 const {Photo} = require('./models.js');
+
+app.use(bodyParser.json())
+
 
 app.use(cors({
     origin: CLIENT_ORIGIN
@@ -30,11 +34,11 @@ app.get('/', (req, res) =>{
 });
 
 app.post('/', function(req, res, next) {
-  console.log("The Req"+ req);
+  console.log("The Req"+ req.body.uploaded.public_id);
 			Photo
 			.create({
 				public_id: req.body.public_id,
-				url: req.url})
+				url: req.body.url})
 			.then(
 				photo => res.status(201).json(photo))
 			.catch(err => {
