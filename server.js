@@ -37,7 +37,8 @@ app.post('/', function(req, res, next) {
   console.log("The Req"+ JSON.stringify(req.body));
 			Photo
 			.create({
-				image :[req.body.uploaded]
+				image :[req.body.uploaded],
+				class : "rawImageNo"
 				})
 			.then(
 				photo => res.status(201).json(photo))
