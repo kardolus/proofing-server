@@ -38,7 +38,7 @@ app.post('/', function(req, res, next) {
 			Photo
 			.create({
 				image :[req.body.uploaded],
-				class : "rawImageNo"
+				approved : false
 				})
 			.then(
 				photo => res.status(201).json(photo))
