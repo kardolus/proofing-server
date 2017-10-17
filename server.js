@@ -14,6 +14,8 @@ const {Photo} = require('./models.js');
 
 app.use(bodyParser.json())
 
+let image_id = '';
+
 
 app.use(cors({
     origin: CLIENT_ORIGIN
@@ -47,6 +49,38 @@ app.post('/', function(req, res, next) {
   				res.status(500).json({message: err});
 		});
 	});
+
+app.put(`'/images/' + ${image_id} + '/approve'`, function (req, res){
+	Photo
+		.find(image_id)
+		.set({approved: true})
+		.then(photo => {
+			res.status(200).json(photo)
+
+		})
+		.then(console.log(photo))
+		.catch(
+			err => {
+				console.error(err);
+				res.status(500).json({message: 'Internal Server Error'});
+		});
+});
+
+app.put(`'/images/' + ${image_id} + '/disprove'`, function (req, res){
+	Photo
+		.find(image_id)
+		.set({approved: false})
+		.then(photo => {
+			res.status(200).json(photo)
+
+		})
+		.then(console.log(photo))
+		.catch(
+			err => {
+				console.error(err);
+				res.status(500).json({message: 'Internal Server Error'});
+		});
+});
 
 let server;
 
