@@ -14,12 +14,17 @@ const {Photo} = require('./models.js');
 
 app.use(bodyParser.json())
 
-let image_id = '';
-
 
 app.use(cors({
     origin: CLIENT_ORIGIN
 }))
+
+app.use(function (req, res, next) 
+	{ res.header('Access-Control-Allow-Origin', '*'); 
+		res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization'); 
+		res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE'); 
+	if (req.method === 'OPTIONS') { return res.send(204); } next(); });
+
 
 app.get('/', (req, res) =>{
 	Photo
@@ -50,15 +55,12 @@ app.post('/', function(req, res, next) {
 		});
 	});
 
-app.put(`'/images/' + ${image_id} + '/approve'`, function (req, res){
+app.put('/images/:id/approve', function (req, res){
 	Photo
-		.find(image_id)
-		.set({approved: true})
+		.findByIdAndUpdate(req.params.id, {approved: true})
 		.then(photo => {
 			res.status(200).json(photo)
-
 		})
-		.then(console.log(photo))
 		.catch(
 			err => {
 				console.error(err);
@@ -66,15 +68,12 @@ app.put(`'/images/' + ${image_id} + '/approve'`, function (req, res){
 		});
 });
 
-app.put(`'/images/' + ${image_id} + '/disprove'`, function (req, res){
+app.put('/images/:id/disprove', function (req, res){
 	Photo
-		.find(image_id)
-		.set({approved: false})
+		.findByIdAndUpdate(req.params.id, {approved: false})
 		.then(photo => {
 			res.status(200).json(photo)
-
 		})
-		.then(console.log(photo))
 		.catch(
 			err => {
 				console.error(err);
