@@ -12,3 +12,5 @@ exports.CLOUDINARY_URL = 'cloudinary://821318977471469:dW9zgguPfWSrOwP8mQ2AyCMYu
 exports.CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:3000';
 
 
+exports.JWT_SECRET = "TOO_MUCH_PIZZA";
+exports.JWT_EXPIRY = process.env.JWT_EXPIRY || '7d';

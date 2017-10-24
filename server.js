@@ -1,8 +1,15 @@
+require('dotenv').config();
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors')
-const bodyParser = require('body-parser')
+const morgan = require('morgan');
+const passport = require('passport');
+
+
+const {router: usersRouter} = require('./users');
+const {router: authRouter, basicStrategy, jwtStrategy} = require('./auth');
 
 const {PORT, DATABASE_URL, CLOUDINARY_URL, CLIENT_ORIGIN} = require('./config');
 
@@ -13,7 +20,7 @@ mongoose.Promise = global.Promise;
 const {Photo} = require('./models.js');
 
 app.use(bodyParser.json())
-
+app.use(morgan('common'));
 
 app.use(cors({
     origin: CLIENT_ORIGIN
@@ -77,6 +84,40 @@ app.put('/images/:id/disprove', function (req, res){
 				console.error(err);
 				res.status(500).json({message: 'Internal Server Error'});
 		});
+});
+
+// CORS
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
+
+app.use(passport.initialize());
+passport.use(basicStrategy);
+passport.use(jwtStrategy);
+
+app.use('/api/users/', usersRouter);
+app.use('/api/auth/', authRouter);
+
+// A protected endpoint which needs a valid JWT to access it
+app.get('/api/protected',
+    passport.authenticate('jwt', {session: false}),
+    (req, res) => {
+        return res.json({
+            data: 'rosebud'
+        });
+    }
+);
+
+
+app.use('*', (req, res) => {
+  return res.status(404).json({message: 'Not Found'});
 });
 
 let server;
