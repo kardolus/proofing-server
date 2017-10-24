@@ -102,11 +102,20 @@ app.use(passport.initialize());
 passport.use(basicStrategy);
 passport.use(jwtStrategy);
 
-app.use('/api/users/', usersRouter);
-app.use('/api/auth/', authRouter);
+app.use('/users/', usersRouter);
+app.use('/auth/', authRouter);
 
 // A protected endpoint which needs a valid JWT to access it
-app.get('/api/protected',
+app.get('/protected',
+    passport.authenticate('jwt', {session: false}),
+    (req, res) => {
+        return res.json({
+            data: 'rosebud'
+        });
+    }
+);
+
+app.get('/albums',
     passport.authenticate('jwt', {session: false}),
     (req, res) => {
         return res.json({
