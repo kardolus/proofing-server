@@ -44,7 +44,8 @@ app.post('/', function(req, res, next) {
             Photo
             .create({
                 image :[req.body.uploaded],
-                approved : false
+                approved : false,
+                userName : [req.body.user]
                 })
             .then((photo) => {
               Photo.find((err, photos) => {
