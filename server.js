@@ -40,7 +40,7 @@ app.get('/', (req, res) =>{
 		});
 });
 
-app.post('/', function(req, res, next) {
+app.post('/photos/:username', function(req, res/*, next*/) {
             Photo
             .create({
                 image :[req.body.uploaded],
