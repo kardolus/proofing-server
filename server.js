@@ -36,6 +36,20 @@ app.get('/', (req, res) =>{
 		.catch(
 			err => {
 				console.error(err);
+				res.status(500).json({message : 'Internal Server Error'});
+		});
+});
+
+app.get('/photos/:username', (req, res) =>{
+	Photo
+		.find({userName : req.params.username})
+		.exec()
+		.then(photos => {
+			res.status(200).json(photos)
+		})
+		.catch(
+			err => {
+				console.error(err);
 				res.status(500).json({message: 'Internal Server Error'});
 		});
 });
@@ -116,6 +130,7 @@ app.get('/protected',
     }
 );
 
+//TODO
 app.get('/albums',
     passport.authenticate('jwt', {session: false}),
     (req, res) => {
@@ -124,7 +139,6 @@ app.get('/albums',
         });
     }
 );
-
 
 app.use('*', (req, res) => {
   return res.status(404).json({message: 'Not Found'});
