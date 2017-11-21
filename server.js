@@ -48,19 +48,34 @@ app.use(cors({
         });
     }
 );*/
-app.get('/photos/:username', (req, res) =>{
-	Photo
-		.find({userName : req.params.username})
-		.exec()
-		.then(photos => {
-			res.status(200).json(photos)
-		})
-		.catch(
-			err => {
-				console.error(err);
-				res.status(500).json({message: 'Internal Server Error'});
-		});
+
+app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) =>{
+  Photo
+    .find({userName : req.params.username})
+    .exec()
+    .then(photos => {
+      res.status(200).json(photos)
+    })
+    .catch(
+      err => {
+        console.error(err);
+        res.status(500).json({message: 'Internal Server Error'});
+    });
 });
+
+// app.get('/photos/:username', (req, res) =>{
+// 	Photo
+// 		.find({userName : req.params.username})
+// 		.exec()
+// 		.then(photos => {
+// 			res.status(200).json(photos)
+// 		})
+// 		.catch(
+// 			err => {
+// 				console.error(err);
+// 				res.status(500).json({message: 'Internal Server Error'});
+// 		});
+// });
 
 app.post('/photos/:username', function(req, res/*, next*/) {
             Photo
@@ -128,25 +143,16 @@ passport.use(jwtStrategy);
 app.use('/users/', usersRouter);
 app.use('/auth/', authRouter);
 
-// A protected endpoint which needs a valid JWT to access it
-app.get('/protected',
-    passport.authenticate('jwt', {session: false}),
-    (req, res) => {
-        return res.json({
-            data: 'rosebud'
-        });
-    }
-);
+// // A protected endpoint which needs a valid JWT to access it
+// app.get('/protected',
+//     passport.authenticate('jwt', {session: false}),
+//     (req, res) => {
+//         return res.json({
+//             data: 'rosebud'
+//         });
+//     }
+// );
 
-//TODO
-app.get('/albums',
-    passport.authenticate('jwt', {session: false}),
-    (req, res) => {
-        return res.json({
-            data: 'rosebud'
-        });
-    }
-);
 
 app.use('*', (req, res) => {
   return res.status(404).json({message: 'Not Found'});
