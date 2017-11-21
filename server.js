@@ -26,7 +26,7 @@ app.use(cors({
     origin: CLIENT_ORIGIN
 }))
 
-app.get('/', (req, res) =>{
+/*app.get('/', (req, res) =>{
 	Photo
 		.find()
 		.exec()
@@ -38,8 +38,16 @@ app.get('/', (req, res) =>{
 				console.error(err);
 				res.status(500).json({message : 'Internal Server Error'});
 		});
-});
+});*/
 
+/*app.get('/protected',
+    passport.authenticate('jwt', {session: false}),
+    (req, res) => {
+        return res.json({
+            data: 'rosebud'
+        });
+    }
+);*/
 app.get('/photos/:username', (req, res) =>{
 	Photo
 		.find({userName : req.params.username})
