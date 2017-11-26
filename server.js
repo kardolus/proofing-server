@@ -26,20 +26,6 @@ app.use(cors({
     origin: CLIENT_ORIGIN
 }))
 
-/*app.get('/', (req, res) =>{
-	Photo
-		.find()
-		.exec()
-		.then(photos => {
-			res.status(200).json(photos)
-		})
-		.catch(
-			err => {
-				console.error(err);
-				res.status(500).json({message : 'Internal Server Error'});
-		});
-});*/
-
 app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) =>{
   Photo
     .find({userName : req.params.username})
@@ -54,40 +40,28 @@ app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req
     });
 });
 
-// app.get('/photos/:username', (req, res) =>{
-// 	Photo
-// 		.find({userName : req.params.username})
-// 		.exec()
-// 		.then(photos => {
-// 			res.status(200).json(photos)
-// 		})
-// 		.catch(
-// 			err => {
-// 				console.error(err);
-// 				res.status(500).json({message: 'Internal Server Error'});
-// 		});
-// });
 
-app.post('/photos/:username', function(req, res/*, next*/) {
-            Photo
-            .create({
-                image :[req.body.uploaded],
-                approved : false,
-                userName : [req.body.uploaded.userName.username]
-                })
-            .then((photo) => {
-              Photo.find((err, photos) => {
-                if(err) {
-                  res.send(err)
-                }
-                res.json(photos)
-              })
-            })
-            .catch(err => {
-                console.error(err);
-                res.status(500).json({message: err});
-        });
+app.post('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+    let userName = req.params.username;
+    Photo
+      .create({
+          image :[req.body.uploaded],
+          approved : false,
+          userName : [req.body.uploaded.userName.username]
+          })
+      .then((photo) => {
+    Photo.find({userName : userName})
+      .exec()
+      .then(photos => {
+        res.status(200).json(photos)
+      })
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({message: err});
     });
+});
+
 
 app.put('/images/:id/approve', function (req, res){
 	Photo
