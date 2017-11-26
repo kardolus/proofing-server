@@ -4,10 +4,10 @@
 
 Original tests have been scrapped after adding jwt auth to routes. New tests are needed. 
 
-Build is likely passing. Will require Config file like below with cloudinary url and your JWT Secret.
+Build is likely passing. Will require Config file like below with cloudinary url and your JWT Secret
 
 
-CONFIG.JS 
+config.js 
 
 
 		exports.DATABASE_URL = process.env.DATABASE_URL ||
