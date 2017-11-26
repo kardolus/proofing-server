@@ -40,15 +40,6 @@ app.use(cors({
 		});
 });*/
 
-/*app.get('/protected',
-    passport.authenticate('jwt', {session: false}),
-    (req, res) => {
-        return res.json({
-            data: 'rosebud'
-        });
-    }
-);*/
-
 app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) =>{
   Photo
     .find({userName : req.params.username})
@@ -135,23 +126,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-
 app.use(passport.initialize());
 passport.use(basicStrategy);
 passport.use(jwtStrategy);
 
 app.use('/users/', usersRouter);
 app.use('/auth/', authRouter);
-
-// // A protected endpoint which needs a valid JWT to access it
-// app.get('/protected',
-//     passport.authenticate('jwt', {session: false}),
-//     (req, res) => {
-//         return res.json({
-//             data: 'rosebud'
-//         });
-//     }
-// );
 
 
 app.use('*', (req, res) => {
