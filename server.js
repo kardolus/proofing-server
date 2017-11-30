@@ -62,6 +62,20 @@ app.post('/photos/:username', passport.authenticate('jwt', {session:false}), (re
     });
 });
 
+app.get('/photos/sort/:username', passport.authenticate('jwt', {session:false}), (req, res) =>{
+  Photo
+    .find({userName : req.params.username})
+    .sort({approved: 1})
+    .exec()
+    .then(photos => {
+      res.status(200).json(photos)
+    })
+    .catch(
+      err => {
+        console.error(err);
+        res.status(500).json({message: 'Internal Server Error'});
+    });
+});
 
 app.put('/images/:id/approve', function (req, res){
 	Photo
