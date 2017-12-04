@@ -9,5 +9,12 @@ const photoSchema = mongoose.Schema({
 
 const Photo = mongoose.model('Photo', photoSchema);
 
-module.exports = {Photo};
+const albumSchema = mongoose.Schema({ 
+         	album: {type: Array}
+     } 
+);
+
+const Album = mongoose.model('Album', albumSchema);
+
+module.exports = {Album, Photo};
 
