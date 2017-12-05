@@ -99,7 +99,6 @@ app.get('/photos/sort/:username', passport.authenticate('jwt', {session:false}),
     .sort({approved: -1})
     .then(photos => {
       res.status(200).json(photos)
-      console.log("response " + photos)
     })
     .catch(
       err => {
