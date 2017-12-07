@@ -96,7 +96,7 @@ app.get('/photos/sort/:username', passport.authenticate('jwt', {session:false}),
   let username = req.params.username;
   Photo
     .find({userName : username})
-    .sort({approved: -1})
+    .sort({approved: +1})
     .then(photos => {
       res.status(200).json(photos)
     })
