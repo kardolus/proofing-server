@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 const morgan = require('morgan');
 const passport = require('passport');
+const uuidv4 = require('uuid/v4');
 
 
 const {router: usersRouter} = require('./users');
@@ -32,6 +33,9 @@ passport.use(jwtStrategy);
 
 app.use('/users/', usersRouter);
 app.use('/auth/', authRouter);
+
+
+//Photos
 
 app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) =>{
   Photo
@@ -108,6 +112,48 @@ app.put('/images/:id/disprove', function (req, res){
 				res.status(500).json({message: 'Internal Server Error'});
 		});
 });
+
+//Albums
+
+app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+    let userName = req.params.username;
+    let newImages = req.params.images;
+    // let photosArray = (JSON.stringify(req.images));
+    console.log(newImages + ' images');
+    // let newAlbum = (req.params.images).filter((photo) => photo.approved);
+    Album
+      .create({
+          owner : userName,
+          albumArray : newImages,
+          albumId: uuidv4(),
+          guests: 'nick'
+          })
+      .then((album) => {
+    Album.find({userName : userName})
+      .exec()
+      .then(album => {
+        res.status(200).json(album)
+      })
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({message: err});
+    });
+});
+
+app.get('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+    let userName = req.params.username;
+    Album
+      .find({owner : userName})
+      .exec()
+      .then(albums => {
+        res.status(200).json(albums)
+      })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({message: err});
+  });
+})
 
 // CORS
 app.use(function (req, res, next) {
