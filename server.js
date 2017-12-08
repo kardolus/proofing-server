@@ -68,30 +68,6 @@ app.post('/photos/:username', passport.authenticate('jwt', {session:false}), (re
     });
 });
 
-// function sortPhoto() {
-//   let photoA = {};
-//   photoA.name = 'photo A';
-//   photoA.approved = true;
-//   let photoB = {};
-//   photoB.name = 'photo B';
-//   photoB.approved = false;
-  
-//   let photos = [photoB, photoA, photoA, photoB, photoB];
-  
-//   console.log(photos.sort(compare));
-// }
-
-// const compare = (a, b)  => {
-//   if (a.approved && !b.approved) {
-//     return -1;
-//   }
-//   if (!a.approved && b.approved) {
-//     return 1;
-//   }
-
-//   return 0;
-// }
-
 app.get('/photos/sort/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
   let username = req.params.username;
   Photo
