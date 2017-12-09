@@ -37,9 +37,10 @@ app.use('/auth/', authRouter);
 
 //Photos
 
-app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) =>{
+app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+  let user = req.params.username;
   Photo
-    .find({userName : username})
+    .find({userName : user})
     .exec()
     .then(photos => {
       res.status(200).json(photos)
@@ -73,9 +74,9 @@ app.post('/photos/:username', passport.authenticate('jwt', {session:false}), (re
 });
 
 app.get('/photos/sort/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
-  let username = req.params.username;
+  let user = req.params.username;
   Photo
-    .find({userName : username})
+    .find({userName : user})
     .sort({approved: +1})
     .then(photos => {
       res.status(200).json(photos)
