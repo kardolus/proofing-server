@@ -118,7 +118,7 @@ app.put('/images/:id/disprove', function (req, res){
 
 app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
     let user = req.params.username;
-    let newImages = req.params.images;
+    let newImages = req.body.images;
     console.log(req.params + " params req");
     Album
       .create({
