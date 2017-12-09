@@ -141,9 +141,9 @@ app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (re
 });
 
 app.get('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
-    let userName = req.params.username;
+    let user = req.params.username;
     Album
-      .find({owner : userName})
+      .find({owner : user})
       .exec()
       .then(albums => {
         res.status(200).json(albums)
