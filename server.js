@@ -53,7 +53,7 @@ app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req
 });
 
 app.post('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
-    let userName = req.params.username;
+    let user = req.params.username;
     Photo
       .create({
           image :[req.body.uploaded],
@@ -61,7 +61,7 @@ app.post('/photos/:username', passport.authenticate('jwt', {session:false}), (re
           userName : [req.body.uploaded.userName.username]
           })
       .then((photo) => {
-    Photo.find({userName : userName})
+    Photo.find({userName : user})
       .exec()
       .then(photos => {
         res.status(200).json(photos)
@@ -117,20 +117,18 @@ app.put('/images/:id/disprove', function (req, res){
 //Albums
 
 app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
-    let userName = req.params.username;
+    let user = req.params.username;
     let newImages = req.params.images;
-    // let photosArray = (JSON.stringify(req.images));
-    console.log(newImages + ' images');
-    // let newAlbum = (req.params.images).filter((photo) => photo.approved);
+    console.log(req.params + " params req");
     Album
       .create({
-          owner : userName,
+          owner : user,
           albumArray : newImages,
           albumId: uuidv4(),
           guests: 'nick'
           })
       .then((album) => {
-    Album.find({userName : userName})
+    Album.find({userName : user})
       .exec()
       .then(album => {
         res.status(200).json(album)
