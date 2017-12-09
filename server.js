@@ -39,7 +39,7 @@ app.use('/auth/', authRouter);
 
 app.get('/photos/:username', passport.authenticate('jwt', {session:false}), (req, res) =>{
   Photo
-    .find({userName : req.params.username})
+    .find({userName : username})
     .exec()
     .then(photos => {
       res.status(200).json(photos)
