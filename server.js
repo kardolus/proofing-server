@@ -119,7 +119,6 @@ app.put('/images/:id/disprove', function (req, res){
 app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
     let user = req.params.username;
     let newImages = req.body.images;
-    console.log(req.params + " params req");
     Album
       .create({
           owner : user,
@@ -143,7 +142,7 @@ app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (re
 app.get('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
     let user = req.params.username;
     Album
-      .find({owner : user})
+      .find({owner: user})
       .exec()
       .then(albums => {
         res.status(200).json(albums)
