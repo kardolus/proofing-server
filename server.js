@@ -124,12 +124,14 @@ app.delete('/images/remove/:username', passport.authenticate('jwt', {session:fal
 
 //Albums
 
-app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+app.post('/albums/:title/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
     let user = req.params.username;
+    let title = req.params.title;
     let newImages = req.body.images;
     Album
       .create({
           owner : user,
+          albumTitle : title,
           albumArray : newImages,
           albumId: uuidv4(),
           guests: 'nick'

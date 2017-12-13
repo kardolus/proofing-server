@@ -11,6 +11,7 @@ const Photo = mongoose.model('Photo', photoSchema);
 
 const albumSchema = mongoose.Schema({ 
 			owner : {type: String},
+			albumTitle : {type: String, default: "A photo Album"},
          	albumArray : {type: Array},
          	albumId : {type: String},
          	guests: {type: Array}
