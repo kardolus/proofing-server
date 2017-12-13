@@ -114,6 +114,14 @@ app.put('/images/:id/disprove', function (req, res){
 		});
 });
 
+app.delete('/images/remove/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+  Photo
+    .deleteMany({approved : true})
+    .exec()
+    .then(photo => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
+
 //Albums
 
 app.post('/albums/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
