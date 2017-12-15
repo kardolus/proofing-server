@@ -20,10 +20,12 @@
     "jsonwebtoken": "^8.1.0",
     "mongoose": "4.10.8",
     "morgan": "^1.9.0",
-    "nodemon": "^1.12.5",
+    "nodemon": "^1.12.7",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^3.0.0",
+    "to": "^0.2.9",
+    "update": "^0.7.4",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

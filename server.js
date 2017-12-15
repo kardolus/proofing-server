@@ -115,10 +115,15 @@ app.put('/images/:id/disprove', function (req, res){
 });
 
 app.delete('/images/remove/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+  let user = req.params.username;
   Photo
     .deleteMany({approved : true})
     .exec()
-    .then(photo => res.status(204).end())
+    .find({userName : user})
+    .exec()
+    .then(photos => {
+      res.status(200).json(photos)
+    })
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
@@ -162,6 +167,22 @@ app.get('/albums/:username', passport.authenticate('jwt', {session:false}), (req
         res.status(500).json({message: err});
   });
 })
+
+app.put('/albums/:username/:albumId/', passport.authenticate('jwt', {session:false}), (req, res) => {
+  let guestEmail = req.body.guestEmail;
+  let albumId = req.params.albumId;
+  Album
+    .findByIdAndUpdate( albumId, {guests: guestEmail })
+    .then(album => {
+      res.status(200).json(album)
+    })
+    .catch(
+      err => {
+        console.error(err);
+        res.status(500).json({message: 'Internal Server Error'});
+    });
+});
+
 
 // CORS
 app.use(function (req, res, next) {
