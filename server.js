@@ -168,12 +168,12 @@ app.get('/albums/:username', passport.authenticate('jwt', {session:false}), (req
   });
 })
 
-app.put('/albums/:username/:albumId', passport.authenticate('jwt', {session:false}), (req, res) => {
-  let guestEmail = req.body.guestEmail;
+app.put('/albums/:username/:albumId/:guestEmail', passport.authenticate('jwt', {session:false}), (req, res) => {
+  let email = req.params.guestEmail;
   let _id = req.params.albumId;
-  console.log(guestEmail);
+  console.log(email);
   Album
-    .findByIdAndUpdate( _id, {$push:{guests: guestEmail}})
+    .findByIdAndUpdate( _id, {$push:{guests: email}})
     .then(album => {
       res.status(200).json(album)
     })
