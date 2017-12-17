@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const photoSchema = mongoose.Schema({ 
          	image : {type: Array},
          	approved : {type: Boolean, default: false},
-         	userName : {type: String}
+         	userName : {type: String},
+         	guestApproved: {type: Array}
      } 
 );
 

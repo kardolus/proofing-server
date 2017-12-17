@@ -127,6 +127,22 @@ app.delete('/images/remove/:username', passport.authenticate('jwt', {session:fal
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
+//Guests approving photos
+
+app.put('/images/guest/:id/:username/approve', function (req, res){
+  let email = req.params.username;
+  Photo
+    .findByIdAndUpdate(req.params.id, {$push:{guests: email}})
+    .then(photo => {
+      res.status(200).json(photo)
+    })
+    .catch(
+      err => {
+        console.error(err);
+        res.status(500).json({message: 'Internal Server Error'});
+    });
+});
+
 //Albums
 
 app.post('/albums/:title/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
@@ -168,6 +184,19 @@ app.get('/albums/:username', passport.authenticate('jwt', {session:false}), (req
   });
 })
 
+app.get('/albums/guest/:username', passport.authenticate('jwt', {session:false}), (req, res) => {
+    let user = req.params.username;
+    Album
+      .find({guests: user})
+      .exec()
+      .then(albums => {
+        res.status(200).json(albums)
+      })
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({message: err});
+  });
+})
 app.put('/albums/:username/:albumId/:guestEmail', passport.authenticate('jwt', {session:false}), (req, res) => {
   let email = req.params.guestEmail;
   let _id = req.params.albumId;
