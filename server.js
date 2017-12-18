@@ -137,8 +137,8 @@ app.put('/albums/guest/:id/approve', function (req, res){
   let albumId = req.body.albumId;
   let user = req.body.username
   Album
-    .findByIdAndUpdate(albumId, /*{ $push: {albumArray[index].guestApproved : email }}*/)
-    .then(photo => {
+    .findByIdAndUpdate(albumId, { $push: {albumArray[index].guestApproved : email }})
+    .then(album => {
       res.status(200).json(album)
     })
     .catch(
