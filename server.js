@@ -129,12 +129,17 @@ app.delete('/images/remove/:username', passport.authenticate('jwt', {session:fal
 
 //Guests approving photos
 
-app.put('/images/guest/:id/:username/approve', function (req, res){
-  let email = req.params.username;
-  Photo
-    .findByIdAndUpdate(req.params.id, {$push:{guests: email}})
+app.put('/albums/guest/:id/approve', function (req, res){
+  console.log(req.body.username + ' req.body.username');
+  debugger;
+  let email = req.body.username;
+  let index = req.body.index;
+  let albumId = req.body.albumId;
+  let user = req.body.username
+  Album
+    .findByIdAndUpdate(albumId, /*{ $push: {albumArray[index].guestApproved : email }}*/)
     .then(photo => {
-      res.status(200).json(photo)
+      res.status(200).json(album)
     })
     .catch(
       err => {
@@ -142,6 +147,23 @@ app.put('/images/guest/:id/:username/approve', function (req, res){
         res.status(500).json({message: 'Internal Server Error'});
     });
 });
+
+// app.put('/albums/:username/:albumId/:guestEmail', passport.authenticate('jwt', {session:false}), (req, res) => {
+//   let email = req.params.guestEmail;
+//   let _id = req.params.albumId;
+//   console.log(email);
+//   Album
+//     .findByIdAndUpdate( _id, {$push:{guests: email}})
+//     .then(album => {
+//       res.status(200).json(album)
+//     })
+//     .catch(
+//       err => {
+//         console.error(err);
+//         res.status(500).json({message: 'Internal Server Error'});
+//     });
+// });
+
 
 //Albums
 
@@ -197,6 +219,7 @@ app.get('/albums/guest/:username', passport.authenticate('jwt', {session:false})
         res.status(500).json({message: err});
   });
 })
+
 app.put('/albums/:username/:albumId/:guestEmail', passport.authenticate('jwt', {session:false}), (req, res) => {
   let email = req.params.guestEmail;
   let _id = req.params.albumId;
