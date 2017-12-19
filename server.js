@@ -140,7 +140,7 @@ app.put('/albums/guest/:id/approve', function (req, res){
   let route = 'albumArray.' + index + '.guestApproved';
   console.log(route);
   Album
-    .findByIdAndUpdate(_id, { $push: {route : email }})
+    .findByIdAndUpdate(_id, { $push: {[route] : email }})
     .then(album => {
       res.status(200).json(album)
     })
@@ -155,8 +155,8 @@ app.put('/albums/guest/:id/approve', function (req, res){
 //   let email = req.params.guestEmail;
 //   let _id = req.params.albumId;
 //   console.log(email);
-  // Album
-  //   .findByIdAndUpdate( _id, {$push:{guests: email}})
+//   Album
+//     .findByIdAndUpdate( _id, {$push:{guests: email}})
 //     .then(album => {
 //       res.status(200).json(album)
 //     })
