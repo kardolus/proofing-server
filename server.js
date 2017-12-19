@@ -129,15 +129,18 @@ app.delete('/images/remove/:username', passport.authenticate('jwt', {session:fal
 
 //Guests approving photos
 
+// var setModifier = { $set: {} };
+// setModifier.$set['directions.' + index + '.name'] = area.value;
+
 app.put('/albums/guest/:id/approve', function (req, res){
-  console.log(req.body.username + ' req.body.username');
-  debugger;
   let email = req.body.username;
   let index = req.body.index;
-  let albumId = req.body.albumId;
+  let _id = req.body.albumId;
   let user = req.body.username
+  let route = 'albumArray.' + index + '.guestApproved';
+  console.log(route);
   Album
-    .findByIdAndUpdate(albumId, { $push: {albumArray[index].guestApproved : email }})
+    .findByIdAndUpdate(_id, { $push: {route : email }})
     .then(album => {
       res.status(200).json(album)
     })
@@ -152,8 +155,8 @@ app.put('/albums/guest/:id/approve', function (req, res){
 //   let email = req.params.guestEmail;
 //   let _id = req.params.albumId;
 //   console.log(email);
-//   Album
-//     .findByIdAndUpdate( _id, {$push:{guests: email}})
+  // Album
+  //   .findByIdAndUpdate( _id, {$push:{guests: email}})
 //     .then(album => {
 //       res.status(200).json(album)
 //     })
