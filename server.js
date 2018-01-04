@@ -130,14 +130,15 @@ app.delete('/images/remove/:username', passport.authenticate('jwt', {session:fal
 //Guests approving photos
 
 app.put('/albums/guest/:id/approve', function (req, res){
-  let email = req.body.username;
+  // let email = req.body.username;
   let index = req.body.index;
   let _id = req.body.albumId;
-  let user = req.body.username
+  let name = req.body.realName;
   let route = 'albumArray.' + index + '.guestApproved';
   console.log(route);
   Album
-    .findByIdAndUpdate(_id, { $push: {[route] : email }})
+    .findByIdAndUpdate(_id, { $push: {[route] : name }}, {new : true})
+    .exec()
     .then(album => {
       res.status(200).json(album)
     })
