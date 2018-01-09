@@ -135,7 +135,6 @@ app.put('/albums/guest/:id/approve', function (req, res){
   let _id = req.body.albumId;
   let name = req.body.realName;
   let route = 'albumArray.' + index + '.guestApproved';
-  console.log(route);
   Album
     .findByIdAndUpdate(_id, { $push: {[route] : name }}, {new : true})
     .exec()
@@ -161,7 +160,7 @@ app.post('/albums/:title/:username', passport.authenticate('jwt', {session:false
           albumTitle : title,
           albumArray : newImages,
           albumId: uuidv4(),
-          guests: 'nick'
+          guests: ''
           })
       .then((album) => {
     Album.find({userName : user})
