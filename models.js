@@ -15,7 +15,7 @@ const albumSchema = mongoose.Schema({
 			albumTitle : {type: String, default: "A photo Album"},
          	albumArray : {type: Array},
          	albumId : {type: String},
-         	guests: {type: Array}
+         	guests: {type: Array, 'default': []}
      } 
 );
 

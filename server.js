@@ -160,7 +160,6 @@ app.post('/albums/:title/:username', passport.authenticate('jwt', {session:false
           albumTitle : title,
           albumArray : newImages,
           albumId: uuidv4(),
-          guests: ''
           })
       .then((album) => {
     Album.find({userName : user})
