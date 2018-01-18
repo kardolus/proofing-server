@@ -205,9 +205,9 @@ app.get('/albums/guest/:username', passport.authenticate('jwt', {session:false})
 app.put('/albums/:username/:albumId/:guestEmail', passport.authenticate('jwt', {session:false}), (req, res) => {
   let email = req.params.guestEmail;
   let _id = req.params.albumId;
-  console.log(email);
+  console.log("new guest is " + email);
   Album
-    .findByIdAndUpdate( _id, {$push:{guests: email}})
+    .findByIdAndUpdate( _id, {$push:{guests: email}},{new:true})
     .then(album => {
       res.status(200).json(album)
     })
